@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情感按钮</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        love: '#FF4B91',
+                        hate: '#4285F4',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .btn-hover {
+                @apply transform transition-all duration-300 hover:scale-105 hover:shadow-lg;
+            }
+            .btn-active {
+                @apply transform transition-all duration-200 scale-95;
+            }
+            .hate-expanding {
+                @apply transition-all duration-300 shadow-xl;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50 font-inter flex flex-col items-center justify-center p-4 overflow-hidden">
+    <div id="container" class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-500">
+        <div class="p-8 text-center">
+            <h1 id="title" class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-love to-hate">情感选择</h1>
+            
+            <div id="buttons-container" class="space-y-6 transition-all duration-500">
+                <button id="loveBtn" class="w-full py-5 px-6 bg-love text-white rounded-xl text-xl font-bold flex items-center justify-center btn-hover">
+                    <i class="fa fa-heart mr-3 text-2xl"></i>
+                    <span>爱你</span>
+                </button>
+                
+                <button id="hateBtn" class="w-full py-5 px-6 bg-hate text-white rounded-xl text-xl font-bold flex items-center justify-center btn-hover hate-expanding">
+                    <i class="fa fa-thumbs-down mr-3 text-2xl"></i>
+                    <span>恨你</span>
+                </button>
+            </div>
+            
+            <div id="message" class="mt-8 text-xl font-medium h-10 flex items-center justify-center transition-all duration-500"></div>
+        </div>
+        
+           </div>
+    
+    <script>
+        const container = document.getElementById('container');
+        const title = document.getElementById('title');
+        const buttonsContainer = document.getElementById('buttons-container');
+        const loveBtn = document.getElementById('loveBtn');
+        const hateBtn = document.getElementById('hateBtn');
+        const message = document.getElementById('message');
+        const footer = document.getElementById('footer');
+        let hateScaleFactor = 1;
+        
+        loveBtn.addEventListener('click', function() {
+            this.classList.add('btn-active');
+            setTimeout(() => this.classList.remove('btn-active'), 200);
+            
+            // 增加恨你按钮的缩放因子
+            hateScaleFactor += 0.2;
+            
+            // 应用缩放
+            hateBtn.style.transform = `scale(${hateScaleFactor})`;
+            
+            // 调整容器内边距以适应变大的按钮
+            buttonsContainer.style.padding = `${10 * hateScaleFactor}px 0`;
+            
+            // 显示消息
+            message.textContent = '❤️ 你的爱让恨变得更强大！';
+            message.className = `mt-8 font-medium h-10 flex items-center justify-center text-love transition-all duration-500 text-[${16 * hateScaleFactor}px]`;
+            
+            // 如果按钮变得足够大，调整容器和页面样式
+            if (hateScaleFactor > 2) {
+                container.style.maxWidth = '100%';
+                container.style.borderRadius = '0';
+                document.body.style.padding = '0';
+            }
+            
+            // 当按钮非常大时，隐藏其他元素
+            if (hateScaleFactor > 3) {
+                title.style.display = 'none';
+                footer.style.display = 'none';
+                loveBtn.style.display = 'none';
+                message.style.display = 'none';
+                buttonsContainer.style.spaceY = '0';
+            }
+        });
+        
+        hateBtn.addEventListener('click', function() {
+            this.classList.add('btn-active');
+            setTimeout(() => this.classList.remove('btn-active'), 200);
+            
+            // 直接显示指定文本并隐藏界面
+            message.textContent = '张鲁育，我恨你';
+            message.className = 'mt-8 text-3xl font-bold h-10 flex items-center justify-center text-hate';
+            
+            // 淡出效果
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.style.display = 'none';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+    
+    
