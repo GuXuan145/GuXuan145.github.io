@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五彩发光文字展示</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+        .image-container {
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 800px;
+            width: 100%;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .glowing-text {
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-size: 3.5rem;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            padding: 0 20px;
+            animation: rainbowGlow 3s ease-in-out infinite;
+        }
+        @keyframes rainbowGlow {
+            0% {
+                text-shadow: 
+                    0 0 5px #ff0000,    
+                    0 0 10px #ff0000,
+                    0 0 15px #ff6600,   
+                    0 0 20px #ff6600;
+            }
+            20% {
+                text-shadow: 
+                    0 0 5px #ffff00,    
+                    0 0 10px #ffff00,
+                    0 0 15px #33ff00,   
+                    0 0 20px #33ff00;
+            }
+            40% {
+                text-shadow: 
+                    0 0 5px #00ff00,    
+                    0 0 10px #00ff00,
+                    0 0 15px #00ffff,   
+                    0 0 20px #00ffff;
+            }
+            60% {
+                text-shadow: 
+                    0 0 5px #0000ff,    
+                    0 0 10px #0000ff,
+                    0 0 15px #6600ff,   
+                    0 0 20px #6600ff;
+            }
+            80% {
+                text-shadow: 
+                    0 0 5px #9900ff,    
+                    0 0 10px #9900ff,
+                    0 0 15px #ff00cc,   
+                    0 0 20px #ff00cc;
+            }
+            100% {
+                text-shadow: 
+                    0 0 5px #ff0066,    
+                    0 0 10px #ff0066,
+                    0 0 15px #ff0000,   
+                    0 0 20px #ff0000;
+            }
+        }
+        @media (max-width: 600px) {
+            .glowing-text {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <!-- 请将此处替换为实际图片路径 -->
+        <img src="image/12.jpg" alt="展示图片">
+    </div>
+    <div class="glowing-text">我是帅哥张鲁育</div>
+</body>
+</html>
