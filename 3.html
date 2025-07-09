@@ -80,9 +80,7 @@
             // 调整容器内边距以适应变大的按钮
             buttonsContainer.style.padding = `${10 * hateScaleFactor}px 0`;
             
-            // 显示消息
-            message.textContent = '❤️ 你的爱让恨变得更强大！';
-            message.className = `mt-8 font-medium h-10 flex items-center justify-center text-love transition-all duration-500 text-[${16 * hateScaleFactor}px]`;
+            
             
             // 如果按钮变得足够大，调整容器和页面样式
             if (hateScaleFactor > 2) {
@@ -113,7 +111,7 @@
             container.style.opacity = '0';
             setTimeout(() => {
                 container.style.display = 'none';
-            }, 1000);
+            }, 5000);
         });
     </script>
 </body>
