@@ -11,23 +11,23 @@
       background-color: #f5f5f5;
     }
 
-    .card {
+       .banner {
+      width: 100%;
+      display: block;
+    }
+/* 卡片整体样式 */
+ .card {
       background: #5ac790;
       color: white;
       margin: 16px;
       border-radius: 10px;
       padding: 16px;
     }
-   .banner {
-      width: 100%;
-      display: block;
-    }
-
 
     .photo-row {
       display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 15px;
+      margin-bottom: 5px;
       position: relative;
     }
 
@@ -36,7 +36,7 @@
       width: 64px;
       height: 84px;
       border-radius: 6px;
-    
+     
     }
 
     .photo-box img {
@@ -61,44 +61,77 @@
     }
 
     .name-info {
-      font-size: 16px;
-      font-weight: bold;
+     font-family: 'Noto Sans SC', sans-serif;
+      font-size: 18px;
+      
       margin-bottom: 4px;
     }
+  .name-inf {
+     font-family: 'Noto Sans SC', sans-serif;
+      font-size: 16px;
+      
+      margin-bottom: 4px;
+    }
+.name-info1 {
+  font-size: 10px;
+ white-space: pre;
+margin-bottom: 15px;
 
+}
+    
     .university {
-      font-size: 18px;
-      font-weight: bold;
+font-family: 'Noto Sans SC', sans-serif;
+
+      font-size: 25px;
+      
       margin-top: 4px;
     }
 
-    .tag {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      padding: 2px 8px;
-      font-size: 12px;
-      margin-left: 8px;
-    }
+   .tag {
+  display: inline-block; /* 关键：转换为行内块元素 */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 12px;
+  margin-left: 90px; /* 元素右侧留出20px空间 */
+}
+}
+.card-content {
+    padding: 1.5rem;
 
-    .major-type {
-      font-size: 14px;
-      margin-top: 4px;
-    }
+}
 
-    .info-list {
-      background: white;
-      margin: 16px;
-      padding: 14px;
-      font-size: 14px;
-      border-radius: 8px;
-      line-height: 2;
-      color: #333;
-    }
+.info-row {
+    display: flex;
+    align-items: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom-width: 1px;
+    border-color: #F3F4F6;
+    transition: all 0.3s ease;
 
-    .button-area {
-      margin: 16px;
-      text-align: center;
-    }
+}
+
+.info-row:last-child {
+    border-bottom-width: 0;
+}
+
+
+.info-label {
+    width: 33.333333%;
+    text-align: right;
+    color: #6B7280;
+    font-weight: 500;
+    padding-right: 1rem;
+    flex-shrink: 0;
+}
+
+.info-value {
+    width: 66.666667%;
+    color: #1F2937;
+    padding-left: 1rem;
+}
+
 
     .verify-button {
       background: #5ac790;
@@ -115,8 +148,7 @@
 <img src="image1\20.jpg" class="banner" />
 
 
-  <!-- 顶部绿色卡片 -->
-  <div class="card">
+ <div class="card">
     <div class="photo-row">
       <!-- 录取照片 -->
       <div class="photo-box">
@@ -128,31 +160,65 @@
         <img src="image1\21.jpg" alt="学历照片">
         <div class="question-icon">?</div>
       </div>
+      <div class="name-info">褚睿韬  <br> <div class="name-inf">男　2004年02月18日</div></div>
     </div>
+ <div class="name-info1">     录取照片                  学历照片</div>
 
-    <div class="name-info">褚睿韬　男　2004年02月18日</div>
-    <div class="university">
-      哈尔滨工业大学 <span class="tag">本科</span>
+      <div class="university">
+      哈尔滨工业大学                                                                      <span class="tag">                                                               本科</span>
     </div>
-    <div class="major-type">数学类 ｜ 普通全日制</div>
+    <div class="major-type">信息与计算科学 ｜ 普通全日制</div>
   </div>
+<!-- 信息内容 -->
+        <div class="card-content">
+            <div class="info-row">
+                <div class="info-label">民族：</div>
+                <div class="info-value">汉族</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">证件号码：</div>
+                <div class="info-value">230404200402180216</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">学制：</div>
+                <div class="info-value">4年</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">学历类别：</div>
+                <div class="info-value">普通高等教育</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">分院：</div>
+                <div class="info-value">数学学院</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">系所：</div>
+                <div class="info-value">数学系</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">班级：</div>
+                <div class="info-value">2312201</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">学号：</div>
+                <div class="info-value font-mono">2023110014</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">入学日期：</div>
+                <div class="info-value">2023年08月20日</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">预计毕业日期：</div>
+                <div class="info-value">2027年06月20日</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">学籍状态：</div>
+            <div class="info-value">在籍（注册学籍)</div>
 
-  <!-- 信息区 -->
-  <div class="info-list">
-    民族：汉族<br>
-    证件号码：230404200402180216<br>
-    学制：4年<br>
-    学历类别：普通高等教育<br>
-    分院：数学学院<br>
-    系所：数学系<br>
-    班级：2312001<br>
-    学号：2023110014<br>
-    入学日期：2023年08月20日<br>
-    预计毕业日期：2027年06月20日<br>
-    学籍状态：在籍（注册学籍）
-  </div>
+           </div>
+        </div>
 
-  <!-- 按钮区 -->
+    <!-- 按钮区 -->
   <div class="button-area">
     <button class="verify-button">申请验证报告</button>
   </div>
