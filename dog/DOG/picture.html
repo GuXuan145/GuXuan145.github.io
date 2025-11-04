@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>王老师的快乐日常（HTML 链接版）</title>
+  <style>
+    :root{
+      --bg:#0b0c10;--card:#121318;--muted:#8a8f98;--text:#e8eaed;--accent:#4f46e5;--ring:#2a2f3a;
+      --shadow:0 10px 20px rgba(0,0,0,.25), 0 6px 6px rgba(0,0,0,.20);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,#0b0c10,#0e1016 30%,#0b0c10);color:var(--text);font:14px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial}
+    header{position:sticky;top:0;z-index:10;background:rgba(11,12,16,.75);backdrop-filter:blur(8px);border-bottom:1px solid #1b1e27}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+    h1{font-size:20px;margin:0 0 6px}
+    .toolbar{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}
+    .toolbar input[type="search"], .toolbar select{
+      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--ring);background:#0f1117;color:var(--text)
+    }
+    .toolbar .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--ring);background:var(--card);color:var(--text);cursor:pointer;text-decoration:none;box-shadow:var(--shadow)}
+    .toolbar .btn:hover{border-color:#2f3651}
+
+    .grid{--size:180px;display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--size),1fr));gap:14px;padding:18px}
+    .card{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--ring);background:linear-gradient(180deg,#0c0f14,#0a0c11);box-shadow:var(--shadow)}
+    .thumb{aspect-ratio:4/3;width:100%;display:block;background:#0f1117;object-fit:cover}
+    .meta{padding:12px 12px 14px}
+    .title{font-size:14px;font-weight:600;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tags{display:flex;flex-wrap:wrap;gap:6px}
+    .tag{font-size:12px;color:var(--muted);padding:4px 8px;border:1px dashed #303746;border-radius:999px}
+    .row{display:flex;gap:8px;margin-top:10px}
+    .row .btn{flex:1;justify-content:center}
+    .open{background:#11131a}
+
+    .empty{color:var(--muted);text-align:center;padding:40px}
+
+    dialog{border:none;border-radius:16px;padding:0;background:#0f1117;color:var(--text);box-shadow:var(--shadow);max-width:720px;width:min(92vw,720px)}
+    .dialog-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--ring)}
+    .dialog-body{padding:16px}
+    .dialog-foot{padding:12px 16px;border-top:1px solid var(--ring);display:flex;gap:8px;justify-content:flex-end}
+    textarea, input[type="url"], input[type="text"]{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--ring);background:#0f1117;color:var(--text);font-family:inherit}
+    .hint{color:var(--muted);font-size:12px}
+    .danger{border-color:#784141;color:#ffd0d0}
+
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:90vw;max-height:82vh;border-radius:16px;border:1px solid #222}
+    .lightbox .close{position:absolute;top:16px;right:16px}
+
+    @media (max-width:720px){
+      .toolbar{grid-template-columns:1fr 1fr auto}
+      .grid{--size:150px}
+      h1{font-size:18px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>WHY的动态相册</h1>
+      <div class="toolbar">
+        <input id="q" type="search" placeholder="搜索标题或标签… (支持模糊匹配)" />
+        <select id="sort">
+          <option value="new">按时间：新→旧</option>
+          <option value="old">按时间：旧→新</option>
+          <option value="az">按标题：A→Z</option>
+          <option value="za">按标题：Z→A</option>
+        </select>
+        <div class="row" style="gap:8px">
+          <button class="btn" id="btn-add">快速添加</button>
+          <button class="btn" id="btn-import">批量导入</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="gallery" class="grid" aria-live="polite"></section>
+    <div id="empty" class="empty" hidden>没有匹配的项目。试试清空搜索或导入数据。</div>
+  </main>
+
+  <!-- 轻盒子预览 -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片预览">
+    <img id="lb-img" alt="预览" />
+    <button class="btn close" id="lb-close">关闭</button>
+  </div>
+
+  <!-- 快速添加对话框 -->
+  <dialog id="dlg-add">
+    <div class="dialog-head"><strong>添加单个条目</strong><button class="btn" data-close>×</button></div>
+    <div class="dialog-body">
+      <div style="display:grid;gap:10px">
+        <input id="add-title" type="text" placeholder="标题（可选）" />
+        <input id="add-url" type="url" placeholder="点击后跳转的链接（必填，例如：https://example.com）" />
+        <input id="add-img" type="url" placeholder="缩略图图片地址（必填，例如：https://…/thumb.jpg）" />
+        <input id="add-tags" type="text" placeholder="标签（可选，逗号分隔）" />
+        <p class="hint">说明：这是一个“链接相册”。点击“打开链接”会在新标签页访问你设置的链接；“预览”则仅放大缩略图。</p>
+      </div>
+    </div>
+    <div class="dialog-foot">
+      <button class="btn" data-close>取消</button>
+      <button class="btn" id="add-save">保存</button>
+    </div>
+  </dialog>
+
+  <!-- 批量导入对话框 -->
+  <dialog id="dlg-import">
+    <div class="dialog-head"><strong>批量导入</strong><button class="btn" data-close>×</button></div>
+    <div class="dialog-body">
+      <p class="hint">支持三种方式：1) 选择 JSON 文件；2) 粘贴 JSON；3) 粘贴每行三个字段（标题|链接|图片）。</p>
+      <input id="file" type="file" accept="application/json" />
+      <p class="hint">JSON 结构示例：[{"title":"示例","url":"https://目标页","img":"https://缩略图","tags":["旅行","风景"],"date":"2025-11-01"}]</p>
+      <textarea id="bulk" rows="8" placeholder="粘贴 JSON 数组，或按行输入：标题|链接|图片"></textarea>
+    </div>
+    <div class="dialog-foot">
+      <button class="btn" data-close>取消</button>
+      <button class="btn" id="import-do">导入</button>
+    </div>
+  </dialog>
+
+  <script>
+    // ============== 数据源（可直接编辑） ==============
+    // 初始示例数据，按需替换/删除
+    let items = [
+      { title: "帅气的王老师plog", img: "image2/501.jpg", tags: ["生活"], date: "2025-11-01" },
+      { title: "帅气的王老师plog",  img: "image2/500.jpg", tags: ["生活"], date: "2025-11-02" },
+      { title: "帅气的王老师plog",  img: "image2/502.jpg", tags: ["生活"], date: "2025-11-03" },
+ { title: "帅气的王老师plog",  img: "image2/503.jpg", tags: ["生活"], date: "2025-11-04" },
+ { title: "帅气的王老师plog",  img: "image2/504.jpg", tags: ["生活"], date: "2025-11-01" },
+    ];
+
+    // 本地存储：优先读取用户保存的数据
+    const saved = localStorage.getItem("link-album-items");
+    if(saved){
+      try{ items = JSON.parse(saved); }catch(e){ console.warn("本地数据损坏，使用默认示例", e); }
+    }
+
+    // ============== 工具函数 ==============
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    function save(){ localStorage.setItem("link-album-items", JSON.stringify(items)); }
+
+    function normalize(str){ return (str||"").toLowerCase().normalize("NFKC"); }
+
+    function render(){
+      const q = normalize($('#q').value);
+      const sort = $('#sort').value;
+      let list = items.filter(it=>{
+        if(!q) return true;
+        const hay = [it.title, ...(it.tags||[])].join('\n');
+        return normalize(hay).includes(q);
+      });
+      list.sort((a,b)=>{
+        if(sort==='new') return (b.date||'') > (a.date||'') ? 1 : -1;
+        if(sort==='old') return (a.date||'') > (b.date||'') ? 1 : -1;
+        if(sort==='az')  return (a.title||'').localeCompare(b.title||'');
+        if(sort==='za')  return (b.title||'').localeCompare(a.title||'');
+        return 0;
+      });
+
+      const g = $('#gallery');
+      g.innerHTML = '';
+
+      list.forEach((it, idx)=>{
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <img class="thumb" src="${it.img}" alt="${it.title||'图片'}" loading="lazy" referrerpolicy="no-referrer" />
+          <div class="meta">
+            <h3 class="title" title="${it.title||''}">${it.title||'未命名'}</h3>
+            <div class="tags">${(it.tags||[]).map(t=>`<span class="tag">#${t}</span>`).join('')}</div>
+            <div class="row">
+             
+              <button class="btn preview" data-index="${idx}">预览</button>
+            </div>
+          </div>`;
+        g.appendChild(card);
+      });
+
+      $('#empty').hidden = list.length>0;
+
+      // 预览绑定
+      $$('.preview').forEach(btn=>{
+        btn.onclick = ()=>{
+          const it = list[btn.dataset.index];
+          if(!it) return;
+          openLightbox(it.img, it.title);
+        };
+      });
+    }
+
+    function openLightbox(src, alt){
+      $('#lb-img').src = src; $('#lb-img').alt = alt||'预览';
+      $('#lightbox').classList.add('open');
+    }
+    function closeLightbox(){ $('#lightbox').classList.remove('open'); $('#lb-img').src=''; }
+
+    // ============== 事件绑定 ==============
+    $('#q').addEventListener('input', render);
+    $('#sort').addEventListener('change', render);
+
+    $('#btn-add').onclick = ()=> $('#dlg-add').showModal();
+    $('#btn-import').onclick = ()=> $('#dlg-import').showModal();
+    $$('#dlg-add [data-close], #dlg-import [data-close]').forEach(b=> b.onclick = e=> e.target.closest('dialog').close());
+
+    $('#add-save').onclick = ()=>{
+      const title = $('#add-title').value.trim();
+      const url = $('#add-url').value.trim();
+      const img = $('#add-img').value.trim();
+      const tags = $('#add-tags').value.split(',').map(s=>s.trim()).filter(Boolean);
+      if(!url || !img){ alert('请至少填写 链接 和 缩略图地址'); return; }
+      items.unshift({title, url, img, tags, date: new Date().toISOString().slice(0,10)});
+      save(); render(); $('#dlg-add').close();
+      $('#add-title').value = $('#add-url').value = $('#add-img').value = $('#add-tags').value = '';
+    };
+
+    // 批量导入：文件 or 粘贴
+    $('#file').addEventListener('change', async e=>{
+      const f = e.target.files?.[0]; if(!f) return;
+      try{
+        const txt = await f.text();
+        const arr = JSON.parse(txt);
+        if(!Array.isArray(arr)) throw new Error('JSON 必须是数组');
+        mergeItems(arr); alert('导入成功！'); $('#dlg-import').close();
+      }catch(err){ alert('导入失败：'+err.message); }
+    });
+
+    $('#import-do').onclick = ()=>{
+      const raw = $('#bulk').value.trim();
+      if(!raw){ $('#dlg-import').close(); return; }
+      try{
+        if(raw.startsWith('[')){
+          const arr = JSON.parse(raw);
+          if(!Array.isArray(arr)) throw new Error('JSON 必须是数组');
+          mergeItems(arr);
+        }else{
+          const arr = raw.split(/\n+/).map(line=>{
+            const [title='',url='',img=''] = line.split('|').map(s=>s.trim());
+            if(!url || !img) throw new Error('每行需要：标题|链接|图片');
+            return {title, url, img, tags:[], date: new Date().toISOString().slice(0,10)};
+          });
+          mergeItems(arr);
+        }
+        alert('导入成功！'); $('#dlg-import').close(); $('#bulk').value='';
+      }catch(err){ alert('导入失败：'+err.message); }
+    };
+
+    function mergeItems(arr){
+      // 去重策略：以 url+img 作为键
+      const map = new Map(items.map(it=>[[it.url,it.img].join('|'), it]));
+      for(const it of arr){
+        if(!it || !it.url || !it.img) continue;
+        const key = [it.url,it.img].join('|');
+        map.set(key, {title: it.title||'未命名', url: it.url, img: it.img, tags: it.tags||[], date: (it.date||new Date().toISOString().slice(0,10)).slice(0,10)});
+      }
+      items = Array.from(map.values());
+      save(); render();
+    }
+
+    // 轻盒子交互
+    $('#lb-close').onclick = closeLightbox;
+    $('#lightbox').addEventListener('click', (e)=>{ if(e.target.id==='lightbox') closeLightbox(); });
+    window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLightbox(); });
+
+    // 初始渲染
+    render();
+  </script>
+</body>
+</html>
