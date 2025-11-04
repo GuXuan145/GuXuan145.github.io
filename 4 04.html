@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>只记得你｜在线阅读</title>
+  <meta name="description" content="原创短篇：失忆×室友×虐恋（耽美）《只记得你》在线阅读页面。" />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    /* ===== 主题变量（data-theme 切换） ===== */
+    :root{
+      --bg:#ffffff;
+      --card:#f7f7f9;
+      --text:#1f2328;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --border:#e5e7eb;
+    }
+    :root[data-theme="light"]{
+      --bg:#ffffff;
+      --card:#f7f7f9;
+      --text:#1f2328;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --border:#e5e7eb;
+    }
+    :root[data-theme="dark"]{
+      --bg:#0b0e14;
+      --card:#121826;
+      --text:#e6e6e6;
+      --muted:#9aa4b2;
+      --accent:#3b82f6;
+      --border:#243040;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-serif, "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.8;
+      letter-spacing:.2px;
+    }
+    .container{max-width:920px; padding:24px; margin:0 auto}
+    header{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter:saturate(180%) blur(10px);
+      background:color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .header-inner{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      padding:10px 24px; max-width:1100px; margin:0 auto;
+    }
+    .title{font-size:18px; font-weight:700; letter-spacing:.4px}
+    .actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    button,.btn{
+      appearance:none; border:1px solid var(--border); background:var(--card);
+      color:var(--text); padding:8px 12px; border-radius:10px; cursor:pointer;
+      font-size:14px; transition:.2s ease; text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+    }
+    button:hover,.btn:hover{transform:translateY(-1px); border-color:color-mix(in oklab, var(--accent) 40%, var(--border))}
+    .progress{height:4px; width:100%; background:var(--border)}
+    .bar{
+      height:100%; width:0;
+      background:linear-gradient(90deg, var(--accent), color-mix(in oklab, var(--accent) 60%, #22d3ee));
+      transition:width .1s linear;
+    }
+    main{display:grid; grid-template-columns:260px 1fr; gap:24px; margin-top:24px}
+    @media (max-width:900px){ main{grid-template-columns:1fr} nav{position:static; top:auto} }
+    nav{
+      position:sticky; top:64px; align-self:start;
+      border:1px solid var(--border); background:var(--card);
+      border-radius:16px; padding:16px;
+    }
+    nav h3{margin:0 0 8px 0; font-size:14px; color:var(--muted)}
+    nav a{display:block; padding:8px 10px; border-radius:10px; color:var(--text); text-decoration:none}
+    nav a:hover{background:color-mix(in oklab, var(--card) 60%, var(--bg))}
+    article{border:1px solid var(--border); background:var(--card); border-radius:16px; padding:28px}
+    h1{margin:.2em 0 .6em; font-size:34px}
+    h2{margin:2.2em 0 .6em; font-size:20px}
+    p{text-indent:2em; margin:0 0 1em 0}
+    .meta{color:var(--muted); font-size:14px; margin-top:-6px; margin-bottom:18px}
+    .chip{border:1px dashed var(--border); padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted)}
+    .hero{display:flex; flex-direction:column; gap:8px; align-items:flex-start; margin-bottom:10px}
+    .note{font-size:13px; color:var(--muted)}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; border:1px solid var(--border); padding:1px 6px; border-radius:6px}
+    .divider{height:1px; background:var(--border); margin:12px 0 16px}
+    .floating-top{
+      position:fixed; right:18px; bottom:18px; z-index:30;
+      border-radius:999px; padding:10px 12px; box-shadow:0 6px 18px rgba(0,0,0,.18);
+      background:var(--accent); color:white; border:none; cursor:pointer; font-weight:600;
+    }
+    .sr-only{position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="title">《只记得你》在线阅读</div>
+      <div class="actions">
+        <button id="toggleTheme" title="切换夜间模式">🌓 夜间/日间</button>
+        <button id="decrease" title="减小字号">A-</button>
+        <button id="increase" title="增大字号">A+</button>
+        <button id="saveTxt" title="导出为 TXT">⇩ 离线保存TXT</button>
+      </div>
+    </div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+  </header>
+
+  <div class="container">
+    <div class="hero" aria-label="简介">
+      <span class="chip">题材：失忆｜室友｜虐恋（耽美）</span>
+      <span class="note">提示：按 <span class="kbd">T</span> 切换夜间模式，<span class="kbd">+</span>/<span class="kbd">-</span> 调整字号。</span>
+      <div class="divider"></div>
+    </div>
+
+    <main>
+      <nav aria-label="目录">
+        <h3>目录</h3>
+        <a href="#chap-0">开篇</a>
+        <a href="#chap-1">回到同居</a>
+        <a href="#chap-2">蓝皮笔记本</a>
+        <a href="#chap-3">走廊的流言</a>
+        <a href="#chap-4">雨夜碎片</a>
+        <a href="#chap-5">像室友地活</a>
+        <a href="#chap-6">记忆归来</a>
+        <a href="#chap-7">清单与重启</a>
+        <a href="#chap-8">尾声</a>
+      </nav>
+
+      <article id="reader" aria-label="正文">
+        <h1 id="chap-0">只记得你</h1>
+        <div class="meta">作者：原创 ｜ 字数约：4.2k ｜ 阅读建议：10–15分钟</div>
+
+        <!-- 正文开始 -->
+        <h2>开篇</h2>
+        <p>醒来的时候，张政看见一盏天花板灯，把冷白色切成四瓣。他努力在脑海里抓住什么，像在水里捞光，可那光一捞就碎。医生说了很多词：轻度脑震荡、逆行性遗忘、观察期。他都点头，像一个恭顺的、刚刚学会“点头”的人。</p>
+        <p>直到门被推开，一个人进来，空气才忽然有了重量。</p>
+        <p>“我叫武玉衡，”那人说，“你室友。”</p>
+        <p>张政盯着他看。骨节分明的手在床沿上攥成拳，又松开，眼睛里藏着漫长的夜。奇怪的是，在那一瞬间，散乱的光全都回来了——不是关于学校、不是父母、不是自己，而是关于这个名字：武玉衡。他记得这个人的笑，记得他睡前会点一支薄荷味的香薰，记得他生气时不看人，指尖却止不住发抖。除此之外，别无所有。</p>
+        <p>“我只记得你。”张政说。这句话从喉咙滚出来，像不是他自己的。</p>
+        <p>武玉衡愣了好久，才低声道：“那够了。”</p>
+
+        <h2 id="chap-1">回到同居</h2>
+        <p>出院之后，他们回到狭小的合租屋。两张单人床，一扇面向小巷的窗，风一吹，晾衣绳上的衬衫便碰在一起，像两个人在撞肩。张政努力填补空白，他翻聊天记录、翻书桌抽屉，在每一张便利贴、每一条未读消息里寻找自己。可自己的影子无处安放，只有关于武玉衡的一切异常清晰：他知道武玉衡喝咖啡只加半勺糖，知道他手机里藏着一张相片，角落里有被折痕磨白的痕迹，拍的是冬天的操场，远处缩成小小一个人的背影——张政隐隐明白，那是他。</p>
+        <p>“我们以前是什么关系？”某个夜里，他终于问。</p>
+        <p>武玉衡背对着他，呼吸在黑暗里一长一短，像是借来的。“室友。”他答，停了一秒，又补充，“朋友。”</p>
+        <p>张政“哦”了一声，却像被什么细细地划了一刀。他不知道这刀从何而来，只知道疼在往里蔓延。他开始做梦，每晚都梦见水里有人向他伸手，他使劲抓住，那人却突然松开，冷水从指缝里滑过去，淹没胸腔。他醒来时会下意识找武玉衡，摸到对方冰冷的手腕，才落回现实。</p>
+        <p>第二天，武玉衡把手抽走，退开一步。“别这样。”他说，声音克制而疲惫。</p>
+        <p>“为什么？”</p>
+        <p>“你忘了很多事，”他避开眼睛，“别急着给它们填词。”</p>
+
+        <h2 id="chap-2">蓝皮笔记本</h2>
+        <p>某个午后，阳光把屋子照得像一张泛黄的旧相纸。武玉衡把一个纸箱放到桌上。“你以前的东西。”他说。</p>
+        <p>箱子里有一本破的蓝皮笔记本。张政打开，第一行是歪歪斜斜写下的“别再辩解”。下面一行——他认出自己的字：<em>人要勇敢，但勇敢不等于不疼。</em></p>
+        <p>往后是断断续续的语句、练习题、中英夹杂的句子和很多被划掉的名字。每一个划痕都像指甲刮过心口。他翻到最后，落款是一个日期，去年冬天，后面跟着一句话：<em>我会离开你。</em></p>
+        <p>“这是谁写的？”张政问。</p>
+        <p>武玉衡的喉结滚了一下，“你。”</p>
+        <p>“我为什么要离开？”他盯着对方，“是你对不起我吗？”</p>
+        <p>没想到这句话像一记空拳打在石壁上，回声把人震得发痛。武玉衡笑了一下，那笑一点温度也没有：“都过去了。”</p>
+        <p>“对我来说没有过去，”张政提高了声音，“我的过去被你抱在怀里。”</p>
+        <p>屋子安静得可怕。过了很久，武玉衡才开口：“你不记得了更好。”</p>
+
+        <h2 id="chap-3">走廊的流言</h2>
+        <p>记忆是一条倔强的缝线，越拉越紧。零星画面从缝里渗出来：雨夜、台阶、某个拥抱，拥抱里带着窒息的气味。他开始怀疑，所谓的“只记得武玉衡”，不是礼物，是惩罚。</p>
+        <p>直到有一天，他在教室外走廊听见两个人讨论。“张政那个，怎么又跟武玉衡混一起了？”“嗐，之前不是闹得很凶？张政把他甩得干干净净，还骂得难听。”</p>
+        <p>“我骂过你？”回到家，他直白地问。</p>
+        <p>武玉衡没否认。“是。”</p>
+        <p>“骂什么？”</p>
+        <p>对方没有答，手却在颤。沉默太久了，长到可以容纳旧事开花。他终于抬起眼，撑着桌沿像撑一艘摇晃的小船：“你说我们之间是病，我是拖累，你说只有离开我，你才能是你自己。你摔门，我追到楼下，你回头看我……像看一个笑话。”</p>
+        <p>张政怔住。他忽然觉得胸口被劈开，里面空了一块，风往里灌，灌得人发寒。“那……事故呢？我为什么会失忆？”</p>
+        <p>“你喝醉了，从台阶上摔下去。”武玉衡闭了闭眼，“我在后面。”</p>
+        <p>“后面？”张政抓住这个词，“你为什么在后面？”</p>
+        <p>“因为我还是没忍住追你。”他的声音很轻，“像每一次你把我推开之后那样。”</p>
+        <p>张政的喉咙发紧。他看到那张蓝皮笔记本上的划痕似乎活了，像一条条狭长的伤口，在武玉衡身上开合。他忽然明白一种疼不是从现在开始的，而是从很久以前开始，只是今天才被叫出名字。</p>
+        <p>“对不起。”他几乎是本能地说。</p>
+        <p>“别道歉。”武玉衡摇头，“你不记得，也不该替从前的人承担。”</p>
+        <p>“可我还是他。”张政说。</p>
+        <p>这句话像一颗石子，投进很深的水里，没有回音。</p>
+
+        <h2 id="chap-4">雨夜碎片</h2>
+        <p>记忆终究还是找到了回家的路。</p>
+        <p>那天雨很大，雨点敲在窗玻璃上，像关不上的嘴。张政在床上忽然坐起来，胸口一阵一阵刺痛。他看见了——看见那个冬夜，自己把话说得比刀还锋利，把对方推得一步又一步，推到楼梯口。对方眼里的光被他一句句吹灭，他却还不肯罢手。他说“你是我的影子”，他说“我不需要你了”，他说“我不爱你”。每说一句，他都把自己往下挖一寸。</p>
+        <p>然后他转身，脚下一滑，整个世界翻覆。失去之前的最后一秒，他看见武玉衡冲过来，伸手抓他，如火的眼圈里是他从未敢直视的东西——爱，赤裸裸，像一件被撕裂的外套。</p>
+        <p>他吐出一口气，像把自己吐回现实。</p>
+        <p>“我想起来了。”他轻声说。</p>
+        <p>武玉衡从厨房探出头，手上还捏着沾水的抹布。两个人对视，空气里只有雨声。张政站起来，走过去，把人抱在怀里。武玉衡先是僵，后来慢慢回抱，那动作不是温柔，是小心，像在拥抱一场余震。</p>
+        <p>“对不起。”张政说，这一次，他清醒地向那条漫长的缝线道歉，“我当时怕极了，怕被你看见，怕我自己不是我以为的样子。所以我先把你推下去，好让我能站得更像一个人。”</p>
+        <p>“我知道。”武玉衡闭上眼，“我也错。我明明知道你在怕，却还是一次次追着你。爱的样子应该是张开手，我却总是握拳……”</p>
+
+        <h2 id="chap-5">像室友地活</h2>
+        <p>“我们怎么办？”他问，“我记起来了，也知道我有多烂。你呢，你还敢要我吗？”</p>
+        <p>武玉衡没答。他把抹布放回水池，拧干，指节被水泡得发白。过了很久，他说：“我们不如试试，像两个人，而不是一个人牵着另一个人的影子。”</p>
+        <p>“会很疼。”张政提醒。</p>
+        <p>“那就一起疼。”</p>
+        <p>他们开始列清单：能做的、不能做的、想做却还不敢做的。能做：并肩走路、在对方做饭时递菜、晚上关灯前说“晚安”。不能做：故意消失、用沉默惩罚人、把“分开”当成威胁。想做却还不敢做的：牵手、去海边、让彼此认识对方的家人。</p>
+        <p>一开始很笨拙。张政说“我今天心跳很快”，武玉衡就把窗子打开，让风进来。他说“我一想到你会不要我就想逃”，武玉衡就往后退一步，给他一段可以自由来回的距离。某个夜里，张政终于伸出手，抓住对方的指尖。武玉衡像被电了一下，却没有收回去。</p>
+        <p>“你还记得我说过的话吗？”张政低声问。</p>
+        <p>“哪句？”</p>
+        <p>“我说我不爱你。”</p>
+        <p>“记得。”武玉衡笑了一下，“我每天都不让自己忘。”</p>
+        <p>“那你也记住这句，”张政把额头抵在他肩窝里，“我很爱你。不是影子，是你。”</p>
+
+        <h2 id="chap-6">记忆归来</h2>
+        <p>城市在雨后渐渐升温，小巷里的晾衣绳再次碰在一起。有人会说这段关系是病，有人会说他们不过是把旧伤抹上新的药。只有他们自己知道，这药也许仍然苦，但总比把伤口敞在风里要好。</p>
+        <p>某个午后，他们把那本蓝皮笔记本重新翻到最后一页。张政拿起笔，划掉“我会离开你”。在下面写：<em>我会在你身边。</em> 然后停住，又补上一句：<em>哪怕我们都还会疼。</em></p>
+        <p>武玉衡看着那两行字，沉默地笑了。他把笔记本合上，放在两人之间，像放下一块石头，又像放下一枚宣言。</p>
+        <p>“晚饭吃什么？”他问。</p>
+        <p>“随便，”张政说，“你做什么，我就吃什么。”</p>
+        <p>他想了一下，又补充：“不对。我们一起做。”</p>
+        <p>厨房的灯亮起来，白光切成四瓣，又慢慢汇成一片。雨停了，窗外的小巷传来有人叫卖海鲜的声音，带着盐的味道。两个人在狭小的灶台前挤在一起，肩膀挨着肩膀，像两条曾经走散、终于敢并行的路。</p>
+        <p>而记忆这件事，仍旧有缺口，有时候会漏风。但他们学会了不再拿对方去填补空白，而是在空白边缘写下新的字：<em>爱不等于不疼，爱是把疼分成两半。</em></p>
+
+        <h2 id="chap-7">清单与重启</h2>
+        <p>清单从三行变成了三页。他们给每一条加上“做法”和“复盘”。比如“不能用沉默惩罚人”后面写：<em>当心里过不去时，至少发一条 ‘我现在需要一点时间，明早我们再说’。</em> 再比如“并肩走路”，后来注了一个小括号：<em>如果谁走快了，两步之内要放慢。</em></p>
+<p>他们第一次严肃地谈“道歉”。不再把“对不起”当作灭火器，而是把它当成标记：标记是谁受了伤、伤口在哪里。“道歉不是结束，是开始。”武玉衡说。于是他们学会了在道歉后问一句：“你需要我怎么补救？”</p>
+<p>张政试着把习惯拆出来看。他发现自己在害怕时会先把人往外推，于是在清单里加了一个奇怪的条目：<em>我可以先说‘我现在想逃’，但脚留在原地。</em> 他第一次说这句话时，嗓子像被石子硌到。武玉衡只是点头，往后退半步，又伸出手。“我不追，但我在。”他说。</p>
+<p>他们给生活设了暗号。餐桌上杯沿对正是“我今天很累”，把钥匙放在门口第二格是“别等我说话，先抱我一下”。这样的暗号幼稚，却把一些难以启齿的情绪变成了门铃。</p>
+<p>某个周末，他们坐在阳台晒被子。阳光把棉花里的潮气一点点烘出去。张政翻出那本蓝皮笔记本，给“想做却还不敢做的”后面加了两条：<em>一起去看海；告诉彼此一个从没说过的真话。</em></p>
+<p>去海的计划就这么被按下了。火车一路往南，窗外把城市的硬边缘换成了盐和风。海滩上有小孩子把脚印留在退潮线，浪来就抹掉一串。张政忽然明白，记忆也是这样：会被抹去，但也会被重新走过。</p>
+<p>晚上，他们在民宿厨房里煮面。张政把碗端给武玉衡，忽然说：“我有时候还是想起那晚的我，觉得自己很糟。我怕那种糟总有一天会回来。”</p>
+<p>武玉衡把筷子放下，像在给一个回答腾出空间。“它会回来的，”他说，“但我们在这。我可以提醒你，你可以提醒我。糟不是你，是你的一部分的影子。影子不是人，不能掌控你。”</p>
+<p>海风把窗帘吹得鼓起来，又塌下去。张政点了点头，把面条递过去。桌上有两双筷子轻轻碰了一下，发出细小而清晰的声响。</p>
+<p>他们在海边写了第一封“练习信”。信里不谈誓言，只写具体：<em>当你加班到很晚，我明早给你煮粥；当我陷在自责里，请你提醒我‘你不是当年的你’；我们每月留一次‘谈话夜’，不谈工作、不谈别人，只谈“我们”。</em></p>
+<p>回到城市，他们真的开始执行这些看似琐碎的条目。谈话夜是在周三，选了最普通的拉面馆。第一次“谈话夜”时，两个人都拘谨得像相亲。后来越来越松，能把埋在心底的钉子一颗颗拔出来，用纸巾包好扔掉。</p>
+<p>有一天傍晚，天边像被桃子染过的水。武玉衡忽然说：“我也加一个条目吧：<em>允许彼此偶尔软弱。</em>”他顿了顿，“我以前总觉得我要硬一点，才不会让你更怕。可其实我也会怕。”</p>
+<p>“那我们就一起怕。”张政说。他把手伸过去，放在桌子的正中央。那只手没有抓紧，只是安静地躺着。武玉衡把自己的手覆盖上去，像给一封信封好。</p>
+
+
+        <h2 id="chap-8">尾声</h2>
+        <p>尾声发生在一个很普通的日子。窗外有楼下店铺的招牌在风里嘎吱响，电饭煲跳成“保温”，空气里是米汤的甜味。张政把那本蓝皮笔记本又拿出来，坐在桌边翻了几页，忽然笑了。</p>
+<p>笑的是那些划得密密麻麻的线条。它们不再像伤口，更像是地图——所有走过的岔路、绕回来的路、走错又折返的路。你很难说哪一条是对的，但你知道有一条通向现在。</p>
+<p>他在最后一页的“我会在你身边”下面，又写了几行小字：<em>如果有一天我们又痛得说不出话，就去阳台晒被子；如果海太远，就一起在厨房煮面；如果我又想逃，请你先把门打开。</em></p>
+<p>武玉衡从背后圈住他，下巴搁在他肩上。“你写了什么？”</p>
+<p>“备忘。”张政把笔递给他，“轮到你了。”</p>
+<p>武玉衡想了很久，在那几行字下面写：<em>爱不是证明，也不是赦免。爱是陪你把夜走完。</em></p>
+<p>他们谁也没有说话。屋内的灯把白光切成四瓣，又慢慢合回去。时间像一锅小火慢炖的汤，咕噜着往前，温吞却实在。</p>
+<p>第二天清晨，天还没亮透。两个人在门口换鞋，准备各自出门。张政低头系鞋带，忽然开口：“我想把我们认识的人请来家里吃饭。”</p>
+<p>武玉衡愣了一下，笑意从眼底慢慢浮上来。“行啊。我们把桌子挪到窗边，拿那块蓝格子桌布。”</p>
+<p>“那条太丑了。”</p>
+<p>“我喜欢那条。”</p>
+<p>“好吧。”张政妥协得很快，“你喜欢就好。”</p>
+<p>门被打开，早晨的风从走廊里穿过来。不是海的味道，是面包店刚出炉的味道。他们并肩走下楼梯，影子在墙上重叠了几步，又分开，各自朝前。</p>
+<p>这不是童话。他们仍会争吵，会因为谁忘了关燃气、谁把衣服堆在椅背上而闹脾气；他们也会有各自低潮的时刻。可在这些琐碎里，他们养出了一种耐心——像照看盆栽那样，不指望一夜冒出新枝，只保证每天浇水、换光、修剪。</p>
+<p>后来又有一个雨夜。雨点敲在窗上，像很久以前的那天。张政关掉灯，把被子往武玉衡那边推了一些。“你冷吗？”</p>
+<p>“还好。”</p>
+<p>“那就一起冷一点。”</p>
+<p>两个人在黑暗里笑了。黑暗并没有退去，但它像被分给了两个人各一半，于是没有那么重。</p>
+<p>再后来，他们真的在家里办了那场饭。桌上摆了一束不是很对称的花，蓝格子桌布果然有点丑，却让房间里多了一种滑稽的踏实。朋友们说起旧事，也谈起新计划。有人问他们：“你们现在怎么样？”</p>
+<p>张政看一眼武玉衡，答得简单：“在路上。”</p>
+<p>晚饭散了，人走得七七八八。屋里只剩下在空盘子里敲打的筷子声。武玉衡去收拾，张政把窗打开，夜风把灯焰吹得轻轻一摆。他忽然想，所谓幸福，也许就是这些收尾的时刻：把灯关小一点，把碗摞整齐，然后在水声里，听到另一个人在你身边动来动去的声音。</p>
+<p>他走到水槽边，伸手接过那只碗。水流打在他们叠起的手背上，溅起细小的水花。没有誓言，没有保证，只有把当下洗干净的专注。</p>
+<p>窗外有送外卖的电动车开过，小巷向更远处延伸。未来仍旧不透明，但他们已经不再拿过去去蒙住它。他们只在空白的边缘继续写：<em>今天我们做了这顿饭，明天我们还会一起吃早饭。</em></p>
+<p>夜深了。白光再次切成四瓣，又在彼此的眼里缓缓合拢。记忆仍旧有缺口，风仍旧会从那里穿过——但有人在对面替你把窗关紧一点，也给你留了一条能看见星星的缝。</p>
+      </article>
+    </main>
+  </div>
+
+  <button class="floating-top" id="toTop" title="返回顶部">↑ 顶部</button>
+
+  <script>
+    // ===== 主题切换（data-theme + localStorage） =====
+    const root = document.documentElement;
+    const toggleThemeBtn = document.getElementById('toggleTheme');
+
+    const storedTheme = localStorage.getItem('novel-theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
+    root.setAttribute('data-theme', initialTheme);
+
+    toggleThemeBtn.addEventListener('click', ()=>{
+      const current = root.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('novel-theme', next);
+
+      // 同步 meta，便于系统部件（滚动条等）响应
+      const meta = document.querySelector('meta[name="color-scheme"]');
+      if (meta) meta.setAttribute('content', next === 'dark' ? 'dark light' : 'light dark');
+    });
+
+    // 键盘 T 快捷键
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T'){ toggleThemeBtn.click(); }
+    });
+
+    // ===== 字号调节 =====
+    const reader = document.getElementById('reader');
+    const inc = document.getElementById('increase');
+    const dec = document.getElementById('decrease');
+    const base = 18;
+    const storedSize = Number(localStorage.getItem('novel-font')) || base;
+    reader.style.fontSize = storedSize + 'px';
+
+    inc.addEventListener('click', ()=>{
+      const s = Math.min(24, (parseInt(getComputedStyle(reader).fontSize) || base) + 1);
+      reader.style.fontSize = s + 'px';
+      localStorage.setItem('novel-font', s);
+    });
+    dec.addEventListener('click', ()=>{
+      const s = Math.max(14, (parseInt(getComputedStyle(reader).fontSize) || base) - 1);
+      reader.style.fontSize = s + 'px';
+      localStorage.setItem('novel-font', s);
+    });
+
+    // ===== 阅读进度条 =====
+    const bar = document.getElementById('bar');
+    function recalcProgress(){
+      const el = document.scrollingElement || document.documentElement;
+      const scrollTop = el.scrollTop;
+      const height = el.scrollHeight - el.clientHeight;
+      const p = height>0 ? (scrollTop/height)*100 : 0;
+      bar.style.width = p + '%';
+    }
+    document.addEventListener('scroll', recalcProgress, {passive:true});
+    window.addEventListener('resize', recalcProgress);
+    recalcProgress();
+
+    // ===== 返回顶部 =====
+    const toTop = document.getElementById('toTop');
+    toTop.addEventListener('click', ()=>{
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+
+    // ===== 目录平滑滚动 =====
+    document.querySelectorAll('nav a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const id = a.getAttribute('href').slice(1);
+        const t = document.getElementById(id);
+        if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+        history.replaceState(null, '', '#'+id);
+      });
+    });
+
+    // ===== 导出为 TXT =====
+    const saveTxtBtn = document.getElementById('saveTxt');
+    saveTxtBtn.addEventListener('click', ()=>{
+      const title = document.querySelector('h1').innerText.trim();
+      const paras = Array.from(reader.querySelectorAll('h1,h2,p')).map(n=>{
+        if(n.tagName==='P') return n.innerText.trim();
+        if(n.tagName==='H1') return '《'+n.innerText.trim()+'》';
+        if(n.tagName==='H2') return '\n【'+n.innerText.trim()+'】';
+        return '';
+      }).join('\n');
+      const blob = new Blob([paras+'\n'], {type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = title + '.txt';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
+
